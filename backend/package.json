@@ -1,0 +1,15 @@
+{
+  "name": "mern-blog-backend",
+  "version": "1.0.0",
+  "description": "API for the backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["api", "mongoose", "express", "mern"],
+  "author": "Stephen Weaver",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
