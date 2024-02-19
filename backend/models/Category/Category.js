@@ -1,0 +1,29 @@
+const mongoose = require('mongoose');
+// Define the schema
+const categorySchema = new mongoose.Schema(
+  {
+    categoryName: {
+      type: String,
+      required: true
+    },
+    description: {
+      type: String,
+      required: true
+    },
+    posts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
+      }
+    ],
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  },
+  { timestamps: true }
+);
+
+const Category = mongoose.model('Category', categorySchema);
+
+module.exports = Category;
