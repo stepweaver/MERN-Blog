@@ -33,8 +33,7 @@ app.post('/api/posts/create', async (req, res) => {
       postCreated
     });
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ msg: 'Server Error', error: err.message });
+    throw new Error(error);
   }
 });
 //! List posts
@@ -47,12 +46,56 @@ app.get('/api/posts', async (req, res) => {
       posts
     });
   } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ msg: 'Server Error', error: err.message });
+    throw new Error(error);
   }
 });
 //! Update post
+app.put('/api/posts/:postId', async (req, res) => {
+  try {
+    // get the post id from params
+    const postId = req.params.postId;
+    // find the post by id and update
+    const postFound = await Post.findById(postId);
+    if (!postFound) {
+      throw new Error('Post not found');
+    }
+    // update
+    const postUpdated = await Post.findByIdAndUpdate(
+      postId,
+      {
+        title: req.body.title,
+        description: req.body.description
+      },
+      { new: true }
+    );
+    res.json({
+      status: 'success',
+      message: 'Post updated successfully',
+      postUpdated
+    });
+  } catch (err) {
+    throw new Error(error);
+  }
+});
 //! Get post
+app.get('/api/posts/:postId', async (req, res) => {
+  try {
+    // get the post id from params
+    const postId = req.params.postId;
+    // find the post by id
+    const postFound = await Post.findById(postId);
+    if (!postFound) {
+      throw new Error('Post not found');
+    }
+    res.json({
+      status: 'success',
+      message: 'Post retrieved successfully',
+      postFound
+    });
+  } catch (err) {
+    throw new Error(error);
+  }
+});
 //! Delete post
 //! Start the server
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
