@@ -20,7 +20,6 @@ const CreatePost = () => {
       description: Yup.string().required('Description is required')
     }),
     onSubmit: (values) => {
-      console.log(values);
       postMutation.mutate(values);
     }
   });

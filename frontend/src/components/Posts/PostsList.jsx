@@ -6,7 +6,7 @@ const PostsList = () => {
     queryKey: ['lists-posts'],
     queryFn: fetchAllPosts
   });
-  console.log(data);
+  
   return (
     <div>
       {isLoading && <p>Loading...</p>}
