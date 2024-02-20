@@ -33,7 +33,7 @@ app.post('/api/posts/create', async (req, res) => {
       postCreated
     });
   } catch (err) {
-    throw new Error(error);
+    throw new Error(err);
   }
 });
 //! List posts
@@ -46,7 +46,7 @@ app.get('/api/posts', async (req, res) => {
       posts
     });
   } catch (err) {
-    throw new Error(error);
+    throw new Error(err);
   }
 });
 //! Update post
@@ -74,7 +74,7 @@ app.put('/api/posts/:postId', async (req, res) => {
       postUpdated
     });
   } catch (err) {
-    throw new Error(error);
+    throw new Error(err);
   }
 });
 //! Get post
@@ -93,7 +93,7 @@ app.get('/api/posts/:postId', async (req, res) => {
       postFound
     });
   } catch (err) {
-    throw new Error(error);
+    throw new Error(err);
   }
 });
 //! Delete post

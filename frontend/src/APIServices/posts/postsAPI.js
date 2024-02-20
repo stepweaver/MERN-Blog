@@ -16,3 +16,9 @@ export const fetchAllPosts = async () => {
   const posts = await axios.get(`${BASE_URL}`);
   return posts.data;
 };
+
+//! Get a single post
+export const fetchPost = async (postId) => {
+  const post = await axios.get(`${BASE_URL}/${postId}`);
+  return post.data;
+};
