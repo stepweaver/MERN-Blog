@@ -22,7 +22,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 //! Create post
-app.post('/api/v1/posts/create', async (req, res) => {
+app.post('/api/posts/create', async (req, res) => {
   try {
     // get the payload
     const postData = req.body;
@@ -38,6 +38,19 @@ app.post('/api/v1/posts/create', async (req, res) => {
   }
 });
 //! List posts
+app.get('/api/posts', async (req, res) => {
+  try {
+    const posts = await Post.find();
+    res.json({
+      status: 'success',
+      message: 'Posts retrieved successfully',
+      posts
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ msg: 'Server Error', error: err.message });
+  }
+});
 //! Update post
 //! Get post
 //! Delete post
