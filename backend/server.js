@@ -1,5 +1,6 @@
 require('dotenv').config();
 const cors = require('cors');
+const asyncHandler = require('express-async-handler');
 const express = require('express');
 const app = express();
 const Post = require('./models/Post/Post');
@@ -22,8 +23,9 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 //! Create post
-app.post('/api/posts/create', async (req, res, next) => {
-  try {
+app.post(
+  '/api/posts/create',
+  asyncHandler(async (req, res) => {
     // get the payload
     const { title, description } = req.body;
     // find post by title
@@ -33,32 +35,29 @@ app.post('/api/posts/create', async (req, res, next) => {
     }
     // create post
     const postCreated = await Post.create({ title, description });
-
     res.json({
       status: 'success',
       message: 'Post created successfully',
       postCreated
     });
-  } catch (err) {
-    next(err);
-  }
-});
+  })
+);
 //! List posts
-app.get('/api/posts', async (req, res) => {
-  try {
+app.get(
+  '/api/posts',
+  asyncHandler(async (req, res) => {
     const posts = await Post.find();
     res.json({
       status: 'success',
       message: 'Posts retrieved successfully',
       posts
     });
-  } catch (err) {
-    throw new Error(err);
-  }
-});
+  })
+);
 //! Update post
-app.put('/api/posts/:postId', async (req, res) => {
-  try {
+app.put(
+  '/api/posts/:postId',
+  asyncHandler(async (req, res) => {
     // get the post id from params
     const postId = req.params.postId;
     // find the post by id and update
@@ -80,13 +79,12 @@ app.put('/api/posts/:postId', async (req, res) => {
       message: 'Post updated successfully',
       postUpdated
     });
-  } catch (err) {
-    throw new Error(err);
-  }
-});
+  })
+);
 //! Get post
-app.get('/api/posts/:postId', async (req, res) => {
-  try {
+app.get(
+  '/api/posts/:postId',
+  asyncHandler(async (req, res) => {
     // get the post id from params
     const postId = req.params.postId;
     // find the post by id
@@ -99,13 +97,12 @@ app.get('/api/posts/:postId', async (req, res) => {
       message: 'Post retrieved successfully',
       postFound
     });
-  } catch (err) {
-    throw new Error(err);
-  }
-});
+  })
+);
 //! Delete post
-app.delete('/api/posts/:postId', async (req, res) => {
-  try {
+app.delete(
+  '/api/posts/:postId',
+  asyncHandler(async (req, res) => {
     // get the post id from params
     const postId = req.params.postId;
     // find the post by id and delete
@@ -118,10 +115,8 @@ app.delete('/api/posts/:postId', async (req, res) => {
       message: 'Post deleted successfully',
       postFound
     });
-  } catch (err) {
-    throw new Error(err);
-  }
-});
+  })
+);
 
 //! Error handler middleware
 app.use((err, req, res, next) => {
