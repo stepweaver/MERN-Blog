@@ -33,10 +33,7 @@ app.put('/api/posts/:postId');
 //! Get post
 app.get('/api/posts/:postId');
 //! Delete post
-app.delete(
-  '/api/posts/:postId',
-  
-);
+app.delete('/api/posts/:postId');
 
 //! Not found middleware
 app.use((req, res, next) => {
