@@ -36,6 +36,7 @@ app.post('/api/posts/create', async (req, res) => {
     throw new Error(err);
   }
 });
+
 //! List posts
 app.get('/api/posts', async (req, res) => {
   try {
@@ -49,6 +50,7 @@ app.get('/api/posts', async (req, res) => {
     throw new Error(err);
   }
 });
+
 //! Update post
 app.put('/api/posts/:postId', async (req, res) => {
   try {
@@ -77,6 +79,7 @@ app.put('/api/posts/:postId', async (req, res) => {
     throw new Error(err);
   }
 });
+
 //! Get post
 app.get('/api/posts/:postId', async (req, res) => {
   try {
@@ -96,6 +99,26 @@ app.get('/api/posts/:postId', async (req, res) => {
     throw new Error(err);
   }
 });
+
 //! Delete post
+app.delete('/api/posts/:postId', async (req, res) => {
+  try {
+    // get the post id from params
+    const postId = req.params.postId;
+    // find the post by id and delete
+    const postFound = await Post.findByIdAndDelete(postId);
+    if (!postFound) {
+      throw new Error('Post not found');
+    }
+    res.json({
+      status: 'success',
+      message: 'Post deleted successfully',
+      postFound
+    });
+  } catch (err) {
+    throw new Error(err);
+  }
+});
+
 //! Start the server
 app.listen(PORT, console.log(`Server started on port ${PORT}`));

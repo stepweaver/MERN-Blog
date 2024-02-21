@@ -31,3 +31,9 @@ export const fetchPost = async (postId) => {
   const post = await axios.get(`${BASE_URL}/${postId}`);
   return post.data;
 };
+
+// Delete a post
+export const deletePost = async (postId) => {
+  const response = await axios.delete(`${BASE_URL}/${postId}`);
+  return response.data;
+};
