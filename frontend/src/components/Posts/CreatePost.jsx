@@ -34,7 +34,7 @@ const CreatePost = () => {
     <div>
       {isLoading && <p>Loading...</p>}
       {isSuccess && <p>Post created successfully</p>}
-      {isError && <p>Error: {error.message}</p>}
+      {isError && <p>{error.message}</p>}
       <form onSubmit={formik.handleSubmit}>
         <input
           type='text'
