@@ -22,7 +22,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 //! Create post
-app.post('/api/posts/create', async (req, res) => {
+app.post('/api/posts/create', async (req, res, next) => {
   try {
     // get the payload
     const postData = req.body;
@@ -33,10 +33,9 @@ app.post('/api/posts/create', async (req, res) => {
       postCreated
     });
   } catch (err) {
-    throw new Error(err);
+    next(err);
   }
 });
-
 //! List posts
 app.get('/api/posts', async (req, res) => {
   try {
@@ -50,7 +49,6 @@ app.get('/api/posts', async (req, res) => {
     throw new Error(err);
   }
 });
-
 //! Update post
 app.put('/api/posts/:postId', async (req, res) => {
   try {
@@ -79,7 +77,6 @@ app.put('/api/posts/:postId', async (req, res) => {
     throw new Error(err);
   }
 });
-
 //! Get post
 app.get('/api/posts/:postId', async (req, res) => {
   try {
@@ -99,7 +96,6 @@ app.get('/api/posts/:postId', async (req, res) => {
     throw new Error(err);
   }
 });
-
 //! Delete post
 app.delete('/api/posts/:postId', async (req, res) => {
   try {
@@ -118,6 +114,16 @@ app.delete('/api/posts/:postId', async (req, res) => {
   } catch (err) {
     throw new Error(err);
   }
+});
+
+//! Error handler middleware
+app.use((err, req, res, next) => {
+  const message = err.message || 'Something went wrong';
+  const stack = err.stack;
+  res.status(500).json({
+    message,
+    stack
+  });
 });
 
 //! Start the server
