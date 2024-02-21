@@ -28,13 +28,14 @@ const CreatePost = () => {
   const isLoading = postMutation.isPending;
   const isError = postMutation.isError;
   const isSuccess = postMutation.isSuccess;
-  const error = postMutation.error;
+
+  const error = postMutation.error?.response?.data?.message;
 
   return (
     <div>
       {isLoading && <p>Loading...</p>}
       {isSuccess && <p>Post created successfully</p>}
-      {isError && <p>{error.message}</p>}
+      {isError && <p>{error}</p>}
       <form onSubmit={formik.handleSubmit}>
         <input
           type='text'

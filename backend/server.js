@@ -25,8 +25,15 @@ app.use(cors(corsOptions));
 app.post('/api/posts/create', async (req, res, next) => {
   try {
     // get the payload
-    const postData = req.body;
-    const postCreated = await Post.create(postData);
+    const { title, description } = req.body;
+    // find post by title
+    const postFound = await Post.findOne({ title });
+    if (postFound) {
+      throw new Error('Post already exists');
+    }
+    // create post
+    const postCreated = await Post.create({ title, description });
+
     res.json({
       status: 'success',
       message: 'Post created successfully',
