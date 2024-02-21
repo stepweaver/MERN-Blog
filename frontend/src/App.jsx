@@ -3,7 +3,7 @@ import CreatePost from './components/Posts/CreatePost';
 import PostsList from './components/Posts/PostsList';
 import PublicNavbar from './components/Navbar/PublicNavbar';
 import HomePage from './components/Home/HomePage';
-import PostDetails from './components/Posts/PostDetails';
+import UpdatePost from './components/Posts/UpdatePost';
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
         <Route element={<HomePage />} path='/' />
         <Route element={<CreatePost />} path='/create-post' />
         <Route element={<PostsList />} path='/posts' />
-        <Route element={<PostDetails />} path='/posts/:postId' />
+        <Route element={<UpdatePost />} path='/posts/:postId' />
       </Routes>
     </BrowserRouter>
   );

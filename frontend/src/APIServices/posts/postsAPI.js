@@ -11,6 +11,15 @@ export const createPost = async (postData) => {
   return response.data;
 };
 
+//! Update a post
+export const updatePost = async (postData) => {
+  const response = await axios.put(`${BASE_URL}/${postData?.postId}`, {
+    title: postData.title,
+    description: postData.description
+  });
+  return response.data;
+};
+
 //! Get all posts
 export const fetchAllPosts = async () => {
   const posts = await axios.get(`${BASE_URL}`);
