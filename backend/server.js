@@ -118,6 +118,13 @@ app.delete(
   })
 );
 
+//! Not found middleware
+app.use((req, res, next) => {
+  res.status(404).json({
+    message: 'Route not found'
+  });
+});
+
 //! Error handler middleware
 app.use((err, req, res, next) => {
   const message = err.message || 'Something went wrong';
