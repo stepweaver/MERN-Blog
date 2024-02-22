@@ -6,6 +6,7 @@ const postController = {
   // @route   POST /api/posts
   // @access  Private
   createPost: asyncHandler(async (req, res) => {
+    console.log(req.file);
     // get the payload
     const { description } = req.body;
     // create post

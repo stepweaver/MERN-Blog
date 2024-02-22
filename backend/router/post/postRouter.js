@@ -1,13 +1,16 @@
 const express = require('express');
-const asyncHandler = require('express-async-handler');
-const Post = require('../../models/Post/Post');
+const multer = require('multer');
 const postController = require('../../controllers/posts/postController');
+const storage = require('../../utils/fileupload');
+
+//! Create instance of multer
+const upload = multer({ storage });
 
 //! Create instance of express router
 const postRouter = express.Router();
 
 //* Create post
-postRouter.post('/api/posts/create', postController.createPost);
+postRouter.post('/api/posts/create', upload.single('image'), postController.createPost);
 //* List posts
 postRouter.get('/api/posts', postController.getPosts);
 //* Update post
