@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
+import './postCss.css';
 import { deletePost, fetchAllPosts } from '../../APIServices/posts/postsAPI';
 import { Link } from 'react-router-dom';
 
@@ -51,11 +52,11 @@ const PostsList = () => {
                   <div className='relative' style={{ height: 240 }}>
                     <div className='absolute top-0 left-0 z-10'></div>
                     <div className='absolute bottom-0 right-0 z-10'></div>
-                    {/* <img
+                    <img
                       className='absolute inset-0 w-full h-full object-cover rounded-2xl'
-                      src={post?.image?.path}
-                      alt
-                    /> */}
+                      src='https://cdn.pixabay.com/photo/2019/10/01/13/59/background-4518359_1280.jpg'
+                      alt=''
+                    />
                   </div>
                   <div className='pt-6 pb-3 px-4'>
                     <div
