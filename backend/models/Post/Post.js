@@ -8,7 +8,8 @@ const postSchema = new mongoose.Schema(
       trim: true
     },
     image: {
-      type: Object
+      type: Object,
+      default: 'https://res.cloudinary.com/dp6wqzo2o/image/upload/v1702566305/anon_m9nm4m.webp'
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,

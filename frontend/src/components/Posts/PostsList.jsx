@@ -54,8 +54,8 @@ const PostsList = () => {
                     <div className='absolute bottom-0 right-0 z-10'></div>
                     <img
                       className='absolute inset-0 w-full h-full object-cover rounded-2xl'
-                      src='https://cdn.pixabay.com/photo/2019/10/01/13/59/background-4518359_1280.jpg'
-                      alt=''
+                      src={post?.image?.path}
+                      alt={post?.description}
                     />
                   </div>
                   <div className='pt-6 pb-3 px-4'>
