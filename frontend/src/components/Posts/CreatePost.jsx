@@ -1,9 +1,15 @@
 import { useFormik } from 'formik';
+import 'react-quill/dist/quill.snow.css';
 import * as Yup from 'yup';
+import ReactQuill from 'react-quill';
 import { useMutation } from '@tanstack/react-query';
 import { createPost } from '../../APIServices/posts/postsAPI';
+import React from 'react';
 
 const CreatePost = () => {
+  // state for the WYSIWYG editor
+  const [description, setDescription] = React.useState('');
+
   // Create post mutation
   const postMutation = useMutation({
     mutationkey: ['create-post'],
@@ -12,15 +18,16 @@ const CreatePost = () => {
 
   const formik = useFormik({
     initialValues: {
-      title: '',
       description: ''
     },
     validationSchema: Yup.object({
-      title: Yup.string().required('Title is required'),
       description: Yup.string().required('Description is required')
     }),
     onSubmit: (values) => {
-      postMutation.mutate(values);
+      const postData = {
+        description: values.description
+      };
+      postMutation.mutate(postData);
     }
   });
 
@@ -37,21 +44,13 @@ const CreatePost = () => {
       {isSuccess && <p>Post created successfully</p>}
       {isError && <p>{error}</p>}
       <form onSubmit={formik.handleSubmit}>
-        <input
-          type='text'
-          name='title'
-          placeholder='Enter Title'
-          {...formik.getFieldProps('title')}
-        />
-        {/* Display error message */}
-        {formik.touched.title && formik.errors.title ? (
-          <span style={{ color: 'red' }}>{formik.errors.title}</span>
-        ) : null}
-        <input
-          type='text'
-          name='description'
-          placeholder='Enter Description'
-          {...formik.getFieldProps('description')}
+        <ReactQuill
+          theme='snow'
+          value={formik.values.description}
+          onChange={(value) => {
+            formik.setFieldValue('description', value);
+            setDescription(value);
+          }}
         />
         {formik.touched.description && formik.errors.description ? (
           <span style={{ color: 'red' }}>{formik.errors.description}</span>
@@ -64,4 +63,4 @@ const CreatePost = () => {
 
 export default CreatePost;
 
-//TODO: Use alert component to display error message
+//TODO: Use alert component to display error message?
