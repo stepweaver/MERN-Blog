@@ -3,7 +3,7 @@ const Post = require('../../models/Post/Post');
 
 const postController = {
   // @desc    Create a new post
-  // @route   POST /api/posts
+  // @route   POST /api/posts/create
   // @access  Private
   createPost: asyncHandler(async (req, res) => {
     // get the payload

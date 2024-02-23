@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
-      required: trud
+      required: true
     },
     profilePicture: {
       type: Object,

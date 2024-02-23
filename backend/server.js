@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const connectDB = require('./utils/connectDB');
 const postRouter = require('./router/post/postRouter');
+const userRouter = require('./router/user/userRouter');
 
 //! Connect to the database
 connectDB();
@@ -22,18 +23,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 //! Route Handlers
-app.use('/', postRouter);
-
-//! Create post
-app.post('/api/posts/create');
-//! List posts
-app.get('/api/posts');
-//! Update post
-app.put('/api/posts/:postId');
-//! Get post
-app.get('/api/posts/:postId');
-//! Delete post
-app.delete('/api/posts/:postId');
+app.use('/api/posts', postRouter);
 
 //! Not found middleware
 app.use((req, res, next) => {
