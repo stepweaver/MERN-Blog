@@ -4,7 +4,6 @@ const express = require('express');
 const app = express();
 const connectDB = require('./utils/connectDB');
 const postRouter = require('./router/post/postRouter');
-const userRouter = require('./router/user/userRouter');
 
 //! Connect to the database
 connectDB();
