@@ -1,16 +1,21 @@
 import { useFormik } from 'formik';
 import 'react-quill/dist/quill.snow.css';
 import * as Yup from 'yup';
+import { FaTimesCircle } from 'react-icons/fa';
 import ReactQuill from 'react-quill';
 import { useMutation } from '@tanstack/react-query';
 import { createPost } from '../../APIServices/posts/postsAPI';
 import React from 'react';
 
 const CreatePost = () => {
-  // state for the WYSIWYG editor
+  //! WYSIWYG editor state
   const [description, setDescription] = React.useState('');
+  //! File upload state
+  const [image, setImage] = React.useState('');
+  const [imageError, setImageErr] = React.useState(null);
+  const [imagePreview, setImagePreview] = React.useState(null);
 
-  // Create post mutation
+  //! Create post mutation
   const postMutation = useMutation({
     mutationkey: ['create-post'],
     mutationFn: createPost
@@ -18,10 +23,12 @@ const CreatePost = () => {
 
   const formik = useFormik({
     initialValues: {
-      description: ''
+      description: '',
+      image: ''
     },
     validationSchema: Yup.object({
-      description: Yup.string().required('Description is required')
+      description: Yup.string().required('Description is required'),
+      image: Yup.string().required('Image is required')
     }),
     onSubmit: (values) => {
       const postData = {
@@ -30,6 +37,31 @@ const CreatePost = () => {
       postMutation.mutate(postData);
     }
   });
+
+  //! Handle file change
+  const handleFileChange = (e) => {
+    // Get file
+    const file = e.target.files[0];
+    // Limit file size to 1MB
+    if (file.size > 1024 * 1024) {
+      setImageErr('Image exceeds 1MB');
+      return;
+    }
+    // Limit file type to jpg and png
+    if (!['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)) {
+      setImageErr('Invalid file type');
+      return;
+    }
+    // Set image
+    formik.setFieldValue('image', file);
+    setImage(URL.createObjectURL(file));
+  };
+
+  //! Remove image
+  const removeImage = () => {
+    setImage(null);
+    formik.setFieldValue('image', '');
+  };
 
   // Get loading state
   const isLoading = postMutation.isPending;
@@ -90,7 +122,7 @@ const CreatePost = () => {
                 type='file'
                 name='image'
                 accept='image/*'
-                // onChange={handleFileChange}
+                onChange={handleFileChange}
                 className='hidden'
               />
               <label
@@ -101,30 +133,30 @@ const CreatePost = () => {
               </label>
             </div>
             {/* Display error message */}
-            {/* {formik.touched.image && formik.errors.image && (
-              <p className="text-sm text-red-600">{formik.errors.image}</p>
-            )} */}
+            {formik.touched.image && formik.errors.image && (
+              <p className='text-sm text-red-600'>{formik.errors.image}</p>
+            )}
 
             {/* error message */}
-            {/* {imageError && <p className='text-sm text-red-600'>{imageError}</p>} */}
+            {imageError && <p className='text-sm text-red-600'>{imageError}</p>}
 
             {/* Preview image */}
 
-            {/* {imagePreview && (
-              <div className="mt-2 relative">
+            {image && (
+              <div className='mt-2 relative'>
                 <img
-                  src={imagePreview}
-                  alt="Preview"
-                  className="mt-2 h-24 w-24 object-cover rounded-full"
+                  src={image}
+                  alt='Preview'
+                  className='mt-2 h-24 w-24 object-cover rounded-full'
                 />
                 <button
                   onClick={removeImage}
-                  className="absolute right-0 top-0 transform translate-x-1/2 -translate-y-1/2 bg-white rounded-full p-1"
+                  className='absolute right-0 top-0 transform translate-x-1/2 -translate-y-1/2 bg-white rounded-full p-1'
                 >
                   <FaTimesCircle className="text-red-500" />
                 </button>
               </div>
-            )} */}
+            )}
           </div>
 
           {/* Submit Button - Button to submit the form */}
