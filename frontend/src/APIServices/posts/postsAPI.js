@@ -4,9 +4,7 @@ const BASE_URL = 'http://localhost:5000/api/posts';
 
 //! Create a post
 export const createPost = async (postData) => {
-  const response = await axios.post(`${BASE_URL}/create`, {
-    description: postData.description
-  });
+  const response = await axios.post(`${BASE_URL}/create`, postData);
   return response.data;
 };
 

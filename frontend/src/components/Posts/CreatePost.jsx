@@ -31,10 +31,11 @@ const CreatePost = () => {
       image: Yup.string().required('Image is required')
     }),
     onSubmit: (values) => {
-      const postData = {
-        description: values.description
-      };
-      postMutation.mutate(postData);
+      // Create form data
+      const formData = new FormData();
+      formData.append('description', values.description);
+      formData.append('image', values.image);
+      postMutation.mutate(formData);
     }
   });
 
