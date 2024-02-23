@@ -6,6 +6,7 @@ import ReactQuill from 'react-quill';
 import { useMutation } from '@tanstack/react-query';
 import { createPost } from '../../APIServices/posts/postsAPI';
 import React from 'react';
+import AlertMessage from '../Alert/AlertMessage';
 
 const CreatePost = () => {
   //! WYSIWYG editor state
@@ -64,12 +65,16 @@ const CreatePost = () => {
     formik.setFieldValue('image', '');
   };
 
-  // Get loading state
+  //! Get post mutation state
   const isLoading = postMutation.isPending;
   const isError = postMutation.isError;
   const isSuccess = postMutation.isSuccess;
+  const errorMsg = postMutation?.error?.response?.data?.message;
 
-  const error = postMutation.error?.response?.data?.message;
+  //! Show error state
+  if (isError) {
+    return <AlertMessage type='error' message={errorMsg} />;
+  }
 
   return (
     <div className='flex items-center justify-center'>
@@ -78,10 +83,11 @@ const CreatePost = () => {
           Add New Post
         </h2>
         {/* show alert */}
-
+        {isLoading && <AlertMessage type='loading' message='Loading...' />}
+        {isSuccess && <AlertMessage type='success' message='Post created succesffully!' />}
         <form onSubmit={formik.handleSubmit} className='space-y-6'>
           {/* Description Input - Using ReactQuill for rich text editing */}
-          <div>
+          <div className='mb-10'>
             <label
               htmlFor='description'
               className='block text-sm font-medium text-gray-700'
@@ -91,6 +97,7 @@ const CreatePost = () => {
             <ReactQuill
               value={formik.values.description}
               onChange={(value) => formik.setFieldValue('description', value)}
+              className='h-40'
             />
             {/* description error */}
           </div>
@@ -154,7 +161,7 @@ const CreatePost = () => {
                   onClick={removeImage}
                   className='absolute right-0 top-0 transform translate-x-1/2 -translate-y-1/2 bg-white rounded-full p-1'
                 >
-                  <FaTimesCircle className="text-red-500" />
+                  <FaTimesCircle className='text-red-500' />
                 </button>
               </div>
             )}

@@ -2,6 +2,8 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import './postCss.css';
 import { deletePost, fetchAllPosts } from '../../APIServices/posts/postsAPI';
 import { Link } from 'react-router-dom';
+import NoDataFound from '../Alert/NoDataFound';
+import AlertMessage from '../Alert/AlertMessage';
 
 const PostsList = () => {
   const { isError, isLoading, data, error, isSuccess, refetch } = useQuery({
@@ -16,15 +18,28 @@ const PostsList = () => {
   });
 
   // delete handler
-  const handleDelete = async (postId) => {
-    postMutation
-      .mutateAsync(postId)
-      .then(() => {
-        // refetch posts
-        refetch();
-      })
-      .catch(() => {});
-  };
+  // const handleDelete = async (postId) => {
+  //   postMutation
+  //     .mutateAsync(postId)
+  //     .then(() => {
+  //       // refetch posts
+  //       refetch();
+  //     })
+  //     .catch(() => {});
+  // };
+
+  //! Show loading state
+  if (isLoading) {
+    return <AlertMessage type='loading' message='Loading...' />;
+  }
+
+  //! Show error state
+  if (isError) {
+    return <AlertMessage type='error' message={error?.message} />;
+  }
+
+  //! No posts found
+  if (data?.posts?.length <= 0) return <NoDataFound text='No Posts Found' />;
 
   return (
     <section className='overflow-hidden'>
