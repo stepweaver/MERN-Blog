@@ -10,7 +10,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 passport.use(
   new LocalStrategy(
     {
-      uernameField: 'username' // username/email
+      usernameField: 'username' // username/email
     },
     async (username, password, done) => {
       try {
@@ -33,7 +33,6 @@ passport.use(
   )
 );
 
-//! Google OAuth2.0
 //! JWT-Options
 const options = {
   jwtFromRequest: ExtractJWT.fromExtractors([
@@ -62,5 +61,38 @@ passport.use(
     }
   })
 );
+//! Google OAuth2.0
+passport.use(
+  new GoogleStrategy({
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: 'http://localhost:5000/api/users/auth/google/callback'
+  }, async(accessToken, refreshToken, profile, done) => {
+    try {
+      // check if user already exists
+      let user = await User.findOne({ googleId: profile.id })
+      // destructuring profile object
+      const { id, displayName, __json: {picture} } = profile;
+      // check if email exists
+      let email = '';
+      if (Array.isArray(profile?.emails) && profile.emails.length > 0) {
+        email = profile.emails[0].value;
+      }
+      // check if user exists
+      if (!user) {
+        user = await User.create({
+          username: displayName,
+          googleId: id,
+          profilePicture: picture,
+          authMethod: 'google',
+          email
+        })
+      }
+      done(null, user);
+    } catch (err) {
+      done(err, null)
+    }
+  })
+)
 
 module.exports = passport;
