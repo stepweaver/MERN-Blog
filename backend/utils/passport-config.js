@@ -63,36 +63,43 @@ passport.use(
 );
 //! Google OAuth2.0
 passport.use(
-  new GoogleStrategy({
-    clientId: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: 'http://localhost:5000/api/users/auth/google/callback'
-  }, async(accessToken, refreshToken, profile, done) => {
-    try {
-      // check if user already exists
-      let user = await User.findOne({ googleId: profile.id })
-      // destructuring profile object
-      const { id, displayName, __json: {picture} } = profile;
-      // check if email exists
-      let email = '';
-      if (Array.isArray(profile?.emails) && profile.emails.length > 0) {
-        email = profile.emails[0].value;
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: 'http://localhost:5000/api/users/auth/google/callback'
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        // check if user already exists
+        let user = await User.findOne({ googleId: profile.id });
+        let picture = '';
+        if (profile.__json) {
+          picture = profile.__json.picture;
+        }
+        // destructuring profile object
+        const { id, displayName } = profile;
+        // check if email exists
+        let email = '';
+        if (Array.isArray(profile?.emails) && profile.emails.length > 0) {
+          email = profile.emails[0].value;
+        }
+        // check if user exists
+        if (!user) {
+          user = await User.create({
+            username: displayName,
+            googleId: id,
+            profilePicture: picture,
+            authMethod: 'google',
+            email
+          });
+        }
+        done(null, user);
+      } catch (err) {
+        done(err, null);
       }
-      // check if user exists
-      if (!user) {
-        user = await User.create({
-          username: displayName,
-          googleId: id,
-          profilePicture: picture,
-          authMethod: 'google',
-          email
-        })
-      }
-      done(null, user);
-    } catch (err) {
-      done(err, null)
     }
-  })
-)
+  )
+);
 
 module.exports = passport;

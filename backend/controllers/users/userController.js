@@ -56,6 +56,44 @@ const userController = {
         _id: user?._id
       });
     })(req, res, next);
+  }),
+  // @desc    Google Auth
+  // @route   POST /api/users/auth/google
+  // @access  Public
+  googleAuth: passport.authenticate('google', {
+    scope: ['profile']
+  }),
+  // @desc    Google Auth Callback
+  // @route   GET /api/users/auth/google/callback
+  // @access  Public
+  googleAuthCallback: asyncHandler(async (req, res, next) => {
+    passport.authenticate(
+      'google',
+      {
+        failureRedirect: '/login',
+        session: false
+      },
+      (err, user, info) => {
+        if (err) return next(err);
+
+        if (!user) {
+          return res.redirect('http://localhost:5173/googl-login-error');
+        }
+        
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+          expiresIn: '3d'
+        });
+        
+        res.cookie('token', token, {
+          httpOnly: true,
+          secure: false,
+          sameSite: 'strict',
+          maxAge: 24 * 60 * 60 * 1000
+        });
+        
+        res.redirect('http://localhost:5173/dashboard');
+      }
+    )(req, res, next);
   })
 };
 
