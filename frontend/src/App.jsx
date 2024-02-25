@@ -3,6 +3,8 @@ import CreatePost from './components/Posts/CreatePost';
 import PostsList from './components/Posts/PostsList';
 import PublicNavbar from './components/Navbar/PublicNavbar';
 import Home from './components/Home/Home';
+import Login from './components/User/Login';
+import Register from './components/User/Register';
 // import UpdatePost from './components/Posts/UpdatePost';
 import PostDetails from './components/Posts/PostDetails';
 
@@ -17,6 +19,8 @@ function App() {
         <Route element={<CreatePost />} path='/create-post' />
         <Route element={<PostsList />} path='/posts' />
         <Route element={<PostDetails />} path='/posts/:postId' />
+        <Route element={<Login />} path='/login' />
+        <Route element={<Register />} path='/register' />
         {/* <Route element={<UpdatePost />} path='/posts/:postId' /> */}
       </Routes>
     </BrowserRouter>
