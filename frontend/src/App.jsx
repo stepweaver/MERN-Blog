@@ -24,7 +24,7 @@ function App() {
     const dispatch = useDispatch();
     useEffect(() => {
       dispatch(isAuthenticated(data));
-    }, [data]);
+    }, [dispatch, data]);
 
     console.log(data);
     // Get the user from the local storage

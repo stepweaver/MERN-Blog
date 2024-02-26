@@ -14,5 +14,7 @@ userRouter.get('/auth/google', userController.googleAuth);
 userRouter.get('/auth/google/callback', userController.googleAuthCallback);
 //* Check if user is authenticated
 userRouter.get('/checkAuthenticated', userController.checkAuthenticated);
+//* Logout user
+userRouter.post('/logout', userController.logout);
 
 module.exports = userRouter;

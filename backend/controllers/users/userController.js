@@ -120,6 +120,13 @@ const userController = {
     } catch (err) {
       return res.status(401).json({ isAuthenticated: false, err });
     }
+  }),
+  //* @desc    Logout user
+  //* @route   GET /api/users/logout
+  //* @access  Private
+  logout: asyncHandler(async (req, res) => {
+    res.cookie('token', '', { maxAge: 1 });
+    res.status(200).json({ message: 'Logout success' });
   })
 };
 
