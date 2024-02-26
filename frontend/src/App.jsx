@@ -14,39 +14,47 @@ import { useQuery } from '@tanstack/react-query';
 import { checkAuthStatus } from './APIServices/users/usersAPI';
 import { useEffect } from 'react';
 import { isAuthenticated } from './redux/slices/authSlices';
+import AuthRoute from './components/AuthRoute/AuthRoute';
 
 function App() {
-    const { isError, isLoading, data, error, isSuccess, refetch } = useQuery({
-      queryKey: ['user-auth'],
-      queryFn: checkAuthStatus
-    });
+  const { isError, isLoading, data, error, isSuccess, refetch } = useQuery({
+    queryKey: ['user-auth'],
+    queryFn: checkAuthStatus
+  });
 
-    const dispatch = useDispatch();
-    useEffect(() => {
-      dispatch(isAuthenticated(data));
-    }, [data]);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(isAuthenticated(data));
+  }, [dispatch, data]);
 
-    console.log(data);
-    // Get the user from the local storage
-    const { userAuth } = useSelector((state) => state.auth);
+  console.log(data);
+  // Get the user from the local storage
+  const { userAuth } = useSelector((state) => state.auth);
 
-    return (
-        <BrowserRouter>
-            {userAuth ? <PrivateNavbar /> : <PublicNavbar />}
-            {/* routes */}
-            <Routes>
-                {/* create post */}
-                <Route element={<Home />} path='/' />
-                <Route element={<CreatePost />} path='/create-post' />
-                <Route element={<PostsList />} path='/posts' />
-                <Route element={<PostDetails />} path='/posts/:postId' />
-                <Route element={<Login />} path='/login' />
-                <Route element={<Register />} path='/register' />
-                <Route element={<Profile />} path='/profile' />
-                {/* <Route element={<UpdatePost />} path='/posts/:postId' /> */}
-            </Routes>
-        </BrowserRouter>
-    );
+  return (
+    <BrowserRouter>
+      {userAuth ? <PrivateNavbar /> : <PublicNavbar />}
+      {/* routes */}
+      <Routes>
+        {/* create post */}
+        <Route element={<Home />} path='/' />
+        <Route element={<CreatePost />} path='/create-post' />
+        <Route element={<PostsList />} path='/posts' />
+        <Route element={<PostDetails />} path='/posts/:postId' />
+        <Route element={<Login />} path='/login' />
+        <Route element={<Register />} path='/register' />
+        <Route
+          element={
+            <AuthRoute>
+              <Profile />
+            </AuthRoute>
+          }
+          path='/profile'
+        />
+        {/* <Route element={<UpdatePost />} path='/posts/:postId' /> */}
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
