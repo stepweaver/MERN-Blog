@@ -7,7 +7,6 @@ import { login } from '../../APIServices/users/usersAPI';
 import AlertMessage from '../Alert/AlertMessage';
 
 const Login = () => {
-  const navigate = useNavigate();
   const userMutation = useMutation({
     mutationkey: ['user-registration'],
     mutationFn: login
@@ -25,9 +24,6 @@ const Login = () => {
     onSubmit: (values) => {
       userMutation
         .mutateAsync(values)
-        .then(() => {
-          // navigate('/login');
-        })
         .catch((err) => console.log(err));
     }
   });
