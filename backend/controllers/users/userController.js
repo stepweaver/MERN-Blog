@@ -77,7 +77,7 @@ const userController = {
         if (err) return next(err);
 
         if (!user) {
-          return res.redirect('http://*localhost:5173/googl-login-error');
+          return res.redirect('http://localhost:5173/googl-login-error');
         }
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -91,7 +91,7 @@ const userController = {
           maxAge: 24 * 60 * 60 * 1000
         });
 
-        res.redirect('http://*localhost:5173/dashboard');
+        res.redirect('http://localhost:5173/dashboard');
       }
     )(req, res, next);
   }),
