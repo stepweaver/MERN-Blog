@@ -7,6 +7,7 @@ import Login from './components/User/Login';
 import Register from './components/User/Register';
 // import UpdatePost from './components/Posts/UpdatePost';
 import PostDetails from './components/Posts/PostDetails';
+import Profile from './components/User/Profile';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route element={<PostDetails />} path='/posts/:postId' />
         <Route element={<Login />} path='/login' />
         <Route element={<Register />} path='/register' />
+        <Route element={<Profile />} path='/profile' />
         {/* <Route element={<UpdatePost />} path='/posts/:postId' /> */}
       </Routes>
     </BrowserRouter>

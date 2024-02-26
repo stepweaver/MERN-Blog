@@ -1,7 +1,7 @@
 import { BASE_URL } from '../../utils/baseEndpoint';
 import axios from 'axios';
 
-//! Register a user
+//* Register a user
 export const register = async (userData) => {
   const response = await axios.post(
     `${BASE_URL}/users/register`,
@@ -18,7 +18,7 @@ export const register = async (userData) => {
   return response.data;
 };
 
-//! Login a user
+//* Login a user
 export const login = async (userData) => {
   const response = await axios.post(
     `${BASE_URL}/users/login`,
@@ -30,6 +30,15 @@ export const login = async (userData) => {
       withCredentials: true
     }
   );
+
+  return response.data;
+};
+
+//* Check authentication status
+export const checkAuthStatus = async () => {
+  const response = await axios.get(`${BASE_URL}/users/checkAuthenticated`, {
+    withCredentials: true
+  });
 
   return response.data;
 };
