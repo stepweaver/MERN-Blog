@@ -15,8 +15,8 @@ const Login = () => {
   // formik config
   const formik = useFormik({
     initialValues: {
-      username: '',
-      password: ''
+      username: 'stepweaver',
+      password: '123456'
     },
     validationSchema: Yup.object({
       username: Yup.string().required('Username is required'),
