@@ -15,6 +15,7 @@ import { checkAuthStatus } from './APIServices/users/usersAPI';
 import { useEffect } from 'react';
 import { isAuthenticated } from './redux/slices/authSlices';
 import AuthRoute from './components/AuthRoute/AuthRoute';
+import UserDashboard from './components/User/Dashboard';
 
 function App() {
   const { isError, isLoading, data, error, isSuccess, refetch } = useQuery({
@@ -41,11 +42,20 @@ function App() {
         <Route
           element={
             <AuthRoute>
-              <CreatePost />
+              <UserDashboard />
             </AuthRoute>
           }
-          path='/create-post'
-        />
+          path='/dashboard'
+        >
+          <Route
+            element={
+              <AuthRoute>
+                <CreatePost />
+              </AuthRoute>
+            }
+            path='create-post'
+          />
+        </Route>
         <Route element={<PostsList />} path='/posts' />
         <Route element={<PostDetails />} path='/posts/:postId' />
         <Route element={<Login />} path='/login' />
