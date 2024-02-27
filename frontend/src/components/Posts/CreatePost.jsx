@@ -71,11 +71,6 @@ const CreatePost = () => {
   const isSuccess = postMutation.isSuccess;
   const errorMsg = postMutation?.error?.response?.data?.message;
 
-  //! Show error state
-  if (isError) {
-    return <AlertMessage type='error' message={errorMsg} />;
-  }
-
   return (
     <div className='flex items-center justify-center'>
       <div className='max-w-md w-full bg-white rounded-lg shadow-md p-8 m-4'>
@@ -84,7 +79,10 @@ const CreatePost = () => {
         </h2>
         {/* show alert */}
         {isLoading && <AlertMessage type='loading' message='Loading...' />}
-        {isSuccess && <AlertMessage type='success' message='Post created succesffully!' />}
+        {isSuccess && (
+          <AlertMessage type='success' message='Post created succesffully!' />
+        )}
+        {isError && <AlertMessage type='error' message={errorMsg} />}
         <form onSubmit={formik.handleSubmit} className='space-y-6'>
           {/* Description Input - Using ReactQuill for rich text editing */}
           <div className='mb-10'>
