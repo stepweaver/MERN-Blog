@@ -1,3 +1,4 @@
+import React from 'react';
 import { useFormik } from 'formik';
 import 'react-quill/dist/quill.snow.css';
 import * as Yup from 'yup';
@@ -5,7 +6,6 @@ import { FaTimesCircle } from 'react-icons/fa';
 import ReactQuill from 'react-quill';
 import { useMutation } from '@tanstack/react-query';
 import { createPost } from '../../APIServices/posts/postsAPI';
-import React from 'react';
 import AlertMessage from '../Alert/AlertMessage';
 
 const CreatePost = () => {

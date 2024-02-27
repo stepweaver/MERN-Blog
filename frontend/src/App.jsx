@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 import { isAuthenticated } from './redux/slices/authSlices';
 import AuthRoute from './components/AuthRoute/AuthRoute';
 import UserDashboard from './components/User/Dashboard';
+import AccountSummaryDashboard from './components/User/AccountSummary';
 
 function App() {
   const { isError, isLoading, data, error, isSuccess, refetch } = useQuery({
@@ -37,7 +38,6 @@ function App() {
       {userAuth ? <PrivateNavbar /> : <PublicNavbar />}
       {/* routes */}
       <Routes>
-        {/* create post */}
         <Route element={<Home />} path='/' />
         <Route
           element={
@@ -47,6 +47,16 @@ function App() {
           }
           path='/dashboard'
         >
+          {/* Account summary */}
+          <Route
+            element={
+              <AuthRoute>
+                <AccountSummaryDashboard />
+              </AuthRoute>
+            }
+            path=''
+          />
+          {/* Create post */}
           <Route
             element={
               <AuthRoute>
