@@ -2,9 +2,9 @@ const asyncHandler = require('express-async-handler');
 const Category = require('../../models/Category/Category');
 
 const categoryController = {
-  // @desc    Create a category
-  // @route   POST /api/categories
-  // @access  Private
+  //* @desc    Create a category
+  //* @route   POST /api/categories
+  //* @access  Private
   createCategory: asyncHandler(async (req, res) => {
     const { categoryName, description } = req.body;
 
@@ -26,9 +26,9 @@ const categoryController = {
     });
   }),
 
-  // @desc    List all categories
-  // @route   GET /api/categories
-  // @access  Public
+  //* @desc    List all categories
+  //* @route   GET /api/categories
+  //* @access  Public
   getCategories: asyncHandler(async (req, res) => {
     const categories = await Category.find();
     res.json({
@@ -38,9 +38,9 @@ const categoryController = {
     });
   }),
 
-  // @desc    Update a category
-  // @route   PUT /api/categories/:categoryId
-  // @access  Private
+  //* @desc    Update a category
+  //* @route   PUT /api/categories/:categoryId
+  //* @access  Private
   updateCategory: asyncHandler(async (req, res) => {
     // get the category id from params
     const categoryId = req.params.categoryId;
@@ -65,9 +65,9 @@ const categoryController = {
     });
   }),
 
-  // @desc    Get a category by id
-  // @route   GET /api/categories/:categoryId
-  // @access  Public
+  //* @desc    Get a category by id
+  //* @route   GET /api/categories/:categoryId
+  //* @access  Public
   getCategory: asyncHandler(async (req, res) => {
     // get the category id from params
     const categoryId = req.params.categoryId;
@@ -83,9 +83,9 @@ const categoryController = {
     });
   }),
 
-  // @desc    Delete a category
-  // @route   DELETE /api/categories/:categoryId
-  // @access  Private
+  //* @desc    Delete a category
+  //* @route   DELETE /api/categories/:categoryId
+  //* @access  Private
   deleteCategory: asyncHandler(async (req, res) => {
     // get the category id from params
     const categoryId = req.params.categoryId;

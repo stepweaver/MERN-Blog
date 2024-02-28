@@ -4,6 +4,8 @@ import { deletePost, fetchAllPosts } from '../../APIServices/posts/postsAPI';
 import { Link } from 'react-router-dom';
 import NoDataFound from '../Alert/NoDataFound';
 import AlertMessage from '../Alert/AlertMessage';
+import PostCategory from '../Category/PostCategory';
+import { getCategories } from '../../APIServices/categories/categoriesAPI';
 
 const PostsList = () => {
   const { isError, isLoading, data, error, isSuccess, refetch } = useQuery({
@@ -16,6 +18,11 @@ const PostsList = () => {
     mutationKey: ['delete-post'],
     mutationFn: deletePost
   });
+
+  const { data: categories } = useQuery({
+    queryKey: ['category-list'],
+    queryFn: getCategories
+  })
 
   // delete handler
   // const handleDelete = async (postId) => {
@@ -54,10 +61,10 @@ const PostsList = () => {
           Latest articles
         </h2>
         {/* Post category */}
-        {/* <PostCategory
-          categories={categoriesData}
-          onCategorySelect={handleCategoryFilter}
-        /> */}
+        <PostCategory
+          categories={categories}
+          // onCategorySelect={handleCategoryFilter}
+        />
         <div className='flex flex-wrap mb-32 -mx-4'>
           {/* Posts */}
           {data?.posts?.map((post) => (
