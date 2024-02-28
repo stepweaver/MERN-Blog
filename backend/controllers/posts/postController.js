@@ -31,15 +31,37 @@ const postController = {
     });
   }),
 
-  // @desc    List all posts
+  // @desc    Get all posts
   // @route   GET /api/posts
   // @access  Public
   getPosts: asyncHandler(async (req, res) => {
-    const posts = await Post.find().populate('category');
+    const { category, title, page = 1, limit = 10 } = req.query;
+
+    let filter = {};
+    if (category) {
+      filter.category = category;
+    }
+    if (title) {
+      filter.description = { $regex: title, $options: 'i' };
+    }
+
+    const posts = await Post.find(filter)
+      .populate('category')
+      .sort({
+        createdAt: -1
+      })
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    const totalPosts = await Post.countDocuments(filter);
+
     res.json({
       status: 'success',
       message: 'Posts retrieved successfully',
-      posts
+      posts,
+      currentPage: page,
+      perPage: limit,
+      totalPages: Math.ceil(totalPosts / limit)
     });
   }),
 
