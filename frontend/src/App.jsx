@@ -17,6 +17,7 @@ import { isAuthenticated } from './redux/slices/authSlices';
 import AuthRoute from './components/AuthRoute/AuthRoute';
 import UserDashboard from './components/User/Dashboard';
 import AccountSummaryDashboard from './components/User/AccountSummary';
+import AddCategory from './components/Category/AddCategory';
 
 function App() {
   const { isError, isLoading, data, error, isSuccess, refetch } = useQuery({
@@ -36,18 +37,11 @@ function App() {
   return (
     <BrowserRouter>
       {userAuth ? <PrivateNavbar /> : <PublicNavbar />}
-      {/* routes */}
       <Routes>
         <Route element={<Home />} path='/' />
-        <Route
-          element={
-            <AuthRoute>
-              <UserDashboard />
-            </AuthRoute>
-          }
-          path='/dashboard'
-        >
-          {/* Account summary */}
+        {/* User Dashboard */}
+        <Route element={<UserDashboard />} path='/dashboard'>
+          {/* Account Summary */}
           <Route
             element={
               <AuthRoute>
@@ -56,7 +50,7 @@ function App() {
             }
             path=''
           />
-          {/* Create post */}
+          {/* Create Posts */}
           <Route
             element={
               <AuthRoute>
@@ -65,7 +59,17 @@ function App() {
             }
             path='create-post'
           />
+          {/* Add Category */}
+          <Route
+            element={
+              <AuthRoute>
+                <AddCategory />
+              </AuthRoute>
+            }
+            path='add-category'
+          />
         </Route>
+
         <Route element={<PostsList />} path='/posts' />
         <Route element={<PostDetails />} path='/posts/:postId' />
         <Route element={<Login />} path='/login' />

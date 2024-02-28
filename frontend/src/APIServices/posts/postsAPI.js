@@ -37,7 +37,7 @@ export const fetchPost = async (postId) => {
   return post.data;
 };
 
-// Delete a post
+//! Delete a post
 export const deletePost = async (postId) => {
   const response = await axios.delete(`${BASE_URL}/${postId}`, {
     withCredentials: true
