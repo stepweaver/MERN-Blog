@@ -3,10 +3,12 @@ import { useFormik } from 'formik';
 import 'react-quill/dist/quill.snow.css';
 import * as Yup from 'yup';
 import { FaTimesCircle } from 'react-icons/fa';
+import Select from 'react-select';
 import ReactQuill from 'react-quill';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueries, useQuery } from '@tanstack/react-query';
 import { createPost } from '../../APIServices/posts/postsAPI';
 import AlertMessage from '../Alert/AlertMessage';
+import { getCategories } from '../../APIServices/categories/categoriesAPI';
 
 const CreatePost = () => {
   //! WYSIWYG editor state
@@ -25,19 +27,28 @@ const CreatePost = () => {
   const formik = useFormik({
     initialValues: {
       description: '',
-      image: ''
+      image: '',
+      category: ''
     },
     validationSchema: Yup.object({
       description: Yup.string().required('Description is required'),
-      image: Yup.string().required('Image is required')
+      image: Yup.string().required('Image is required'),
+      category: Yup.string().required('Category is required')
     }),
     onSubmit: (values) => {
       // Create form data
       const formData = new FormData();
       formData.append('description', values.description);
       formData.append('image', values.image);
+      formData.append('category', values.category);
       postMutation.mutate(formData);
     }
+  });
+
+  //! Get categories
+  const { data } = useQuery({
+    queryKey: ['category-list'],
+    queryFn: getCategories
   });
 
   //! Handle file change
@@ -108,10 +119,26 @@ const CreatePost = () => {
             >
               Category
             </label>
+            <Select
+              name='category'
+              options={data?.categories?.map((category) => {
+                return {
+                  value: category._id,
+                  label: category.categoryName
+                };
+              })}
+              onChange={(option) => {
+                return formik.setFieldValue('category', option.value);
+              }}
+              value={data?.categories?.find(
+                (option) => option.value === formik.values.category
+              )}
+              className='mt-1 block w-full'
+            />
             {/* display error */}
-            {/* {formik.touched.category && formik.errors.category && (
-              <p className="text-sm text-red-600">{formik.errors.category}</p>
-            )} */}
+            {formik.touched.category && formik.errors.category && (
+              <p className='text-sm text-red-600'>{formik.errors.category}</p>
+            )}
           </div>
 
           {/* Image Upload Input - File input for uploading images */}
@@ -179,5 +206,3 @@ const CreatePost = () => {
 };
 
 export default CreatePost;
-
-//TODO: Use alert component to display error message?

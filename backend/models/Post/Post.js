@@ -9,7 +9,8 @@ const postSchema = new mongoose.Schema(
     },
     image: {
       type: Object,
-      default: 'https://res.cloudinary.com/dp6wqzo2o/image/upload/v1702566305/anon_m9nm4m.webp'
+      default:
+        'https://res.cloudinary.com/dp6wqzo2o/image/upload/v1702566305/anon_m9nm4m.webp'
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,
@@ -31,7 +32,8 @@ const postSchema = new mongoose.Schema(
     },
     category: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Category'
+      ref: 'Category',
+      required: true
     },
     viewsCount: {
       type: Number,

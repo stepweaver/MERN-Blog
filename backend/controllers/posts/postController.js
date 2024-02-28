@@ -6,12 +6,13 @@ const postController = {
   // @route   POST /api/posts/create
   // @access  Private
   createPost: asyncHandler(async (req, res) => {
-    const { description } = req.body;
+    const { description, category } = req.body;
 
     const postCreated = await Post.create({
       description,
       image: req.file,
-      author: req.user
+      author: req.user,
+      category
     });
 
     res.json({
