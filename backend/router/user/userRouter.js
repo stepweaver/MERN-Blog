@@ -1,5 +1,6 @@
 const express = require('express');
 const userController = require('../../controllers/users/userController');
+const isAuthenticated = require('../../middlewares/isAuthenticated');
 
 //! Create instance of express router
 const userRouter = express.Router();
@@ -16,5 +17,7 @@ userRouter.get('/auth/google/callback', userController.googleAuthCallback);
 userRouter.get('/checkAuthenticated', userController.checkAuthenticated);
 //* Logout user
 userRouter.post('/logout', userController.logout);
+//* Profile
+userRouter.get('/profile', isAuthenticated, userController.profile);
 
 module.exports = userRouter;

@@ -1,16 +1,22 @@
 const asyncHandler = require('express-async-handler');
 const Post = require('../../models/Post/Post');
+const User = require('../../models/User/User');
 const Category = require('../../models/Category/Category');
 const postController = {
-  // @desc    Create a new post
-  // @route   POST /api/posts/create
-  // @access  Private
+  //* @desc    Create a new post
+  //* @route   POST /api/posts/create
+  //* @access  Private
   createPost: asyncHandler(async (req, res) => {
     const { description, category } = req.body;
 
     const categoryFound = await Category.findById(category);
     if (!categoryFound) {
       throw new Error('Category not found');
+    }
+
+    const userFound = await User.findById(req.user);
+    if (!userFound) {
+      throw new Error('User not found');
     }
 
     const postCreated = await Post.create({
@@ -21,8 +27,10 @@ const postController = {
     });
 
     categoryFound.posts.push(categoryFound?._id);
-
     await categoryFound.save();
+
+    userFound.posts.push(postCreated?._id);
+    await userFound.save();
 
     res.json({
       status: 'success',
@@ -31,9 +39,9 @@ const postController = {
     });
   }),
 
-  // @desc    Get all posts
-  // @route   GET /api/posts
-  // @access  Public
+  //* @desc    Get all posts
+  //* @route   GET /api/posts
+  //* @access  Public
   getPosts: asyncHandler(async (req, res) => {
     const { category, title, page = 1, limit = 10 } = req.query;
 
@@ -65,9 +73,9 @@ const postController = {
     });
   }),
 
-  // @desc    Update a post
-  // @route   PUT /api/posts/:postId
-  // @access  Private
+  //* @desc    Update a post
+  //* @route   PUT /api/posts/:postId
+  //* @access  Private
   updatePost: asyncHandler(async (req, res) => {
     // get the post id from params
     const postId = req.params.postId;
@@ -92,9 +100,9 @@ const postController = {
     });
   }),
 
-  // @desc    Get a post
-  // @route   GET /api/posts/:postId
-  // @access  Public
+  //* @desc    Get a post
+  //* @route   GET /api/posts/:postId
+  //* @access  Public
   getPostById: asyncHandler(async (req, res) => {
     // get the post id from params
     const postId = req.params.postId;
@@ -110,9 +118,9 @@ const postController = {
     });
   }),
 
-  // @desc    Delete a post
-  // @route   DELETE /api/posts/:postId
-  // @access  Private
+  //* @desc    Delete a post
+  //* @route   DELETE /api/posts/:postId
+  //* @access  Private
   deletePost: asyncHandler(async (req, res) => {
     // get the post id from params
     const postId = req.params.postId;

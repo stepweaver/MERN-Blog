@@ -127,6 +127,13 @@ const userController = {
   logout: asyncHandler(async (req, res) => {
     res.cookie('token', '', { maxAge: 1 });
     res.status(200).json({ message: 'Logout success' });
+  }),
+  //* desc   Get user profile
+  //* route  GET /api/users/profile
+  //* access Private
+  profile: asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user).populate('posts').select('-password, -passwordResetToken, -accountVerificationToken -passwordResetExpires');
+    res.json({ user });
   })
 };
 
