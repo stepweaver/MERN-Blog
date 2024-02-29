@@ -26,8 +26,10 @@ export const updatePost = async (postData) => {
 };
 
 //! Get all posts
-export const fetchAllPosts = async () => {
-  const posts = await axios.get(`${BASE_URL}`);
+export const getPosts = async (filters) => {
+  const posts = await axios.get(BASE_URL, {
+    params: filters
+  });
   return posts.data;
 };
 

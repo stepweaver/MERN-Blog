@@ -30,7 +30,6 @@ function App() {
     dispatch(isAuthenticated(data));
   }, [dispatch, data]);
 
-  console.log(data);
   // Get the user from the local storage
   const { userAuth } = useSelector((state) => state.auth);
 
