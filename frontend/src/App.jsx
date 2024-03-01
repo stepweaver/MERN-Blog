@@ -19,6 +19,7 @@ import UserDashboard from './components/User/Dashboard';
 import AccountSummaryDashboard from './components/User/AccountSummary';
 import AddCategory from './components/Category/AddCategory';
 import CreatePlan from './components/Plans/CreatePlan';
+import Pricing from './components/Plans/Pricing';
 
 function App() {
   const { isError, isLoading, data, error, isSuccess, refetch } = useQuery({
@@ -78,11 +79,12 @@ function App() {
             path='add-category'
           />
         </Route>
-
+        {/* Public Routes */}
         <Route element={<PostsList />} path='/posts' />
         <Route element={<PostDetails />} path='/posts/:postId' />
         <Route element={<Login />} path='/login' />
         <Route element={<Register />} path='/register' />
+        <Route element={<Pricing />} path='/pricing' />
         <Route
           element={
             <AuthRoute>
