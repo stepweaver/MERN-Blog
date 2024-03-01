@@ -8,6 +8,7 @@ import AlertMessage from '../Alert/AlertMessage';
 
 const Login = () => {
   const navigate = useNavigate();
+
   const userMutation = useMutation({
     mutationkey: ['user-registration'],
     mutationFn: login
@@ -25,8 +26,10 @@ const Login = () => {
     onSubmit: (values) => {
       userMutation
         .mutateAsync(values)
+        .then(() => {
+          navigate('/profile');
+        })
         .catch((err) => console.log(err));
-        navigate('/profile');
     }
   });
 
@@ -47,10 +50,7 @@ const Login = () => {
               <AlertMessage type='loading' message='Loading...' />
             )}
             {userMutation.isSuccess && (
-              <AlertMessage
-                type='success'
-                message='Login successful'
-              />
+              <AlertMessage type='success' message='Login successful' />
             )}
             {userMutation.isError && (
               <AlertMessage
@@ -118,7 +118,7 @@ const Login = () => {
             </button>
             {/* login with google */}
             <a
-              href="http://localhost:5000/api/users/auth/google"
+              href='http://localhost:5000/api/users/auth/google'
               className='h-14 inline-flex items-center justify-center gap-2 py-4 px-6 rounded-full bg-white w-full text-center border border-gray-100 shadow hover:bg-gray-50 focus:ring focus:ring-orange-200 transition duration-200'
               type='submit'
             >
