@@ -11,7 +11,7 @@ stripePaymentRouter.post(
   isAuthenticated,
   stripePaymentController.payment
 );
-//* List plans
-// stripePaymentRouter.get('/', stripePaymentController.getPlans);
+//* Verify payment
+stripePaymentRouter.get('/verify/:paymentId', stripePaymentController.verify);
 
 module.exports = stripePaymentRouter;
