@@ -9,6 +9,7 @@ const postRouter = require('./router/post/postRouter');
 const userRouter = require('./router/user/userRouter');
 const categoryRouter = require('./router/category/categoryRouter');
 const planRouter = require('./router/plan/planRouter');
+const stripePaymentRouter = require('./router/stripePayment/stripePaymentRouter');
 
 //! Connect to the database
 connectDB();
@@ -39,6 +40,7 @@ app.use('/api/posts', postRouter);
 app.use('/api/users', userRouter);
 app.use('/api/categories', categoryRouter);
 app.use('/api/plans', planRouter);
+app.use('/api/stripe', stripePaymentRouter);
 
 //* Not found middleware
 app.use((req, res, next) => {
