@@ -8,6 +8,7 @@ const connectDB = require('./utils/connectDB');
 const postRouter = require('./router/post/postRouter');
 const userRouter = require('./router/user/userRouter');
 const categoryRouter = require('./router/category/categoryRouter');
+const planRouter = require('./router/plan/planRouter');
 
 //! Connect to the database
 connectDB();
@@ -37,6 +38,7 @@ app.use(cookieParser());
 app.use('/api/posts', postRouter);
 app.use('/api/users', userRouter);
 app.use('/api/categories', categoryRouter);
+app.use('/api/plans', planRouter);
 
 //* Not found middleware
 app.use((req, res, next) => {
